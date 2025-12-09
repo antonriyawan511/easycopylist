@@ -82,6 +82,56 @@
             font-weight: 600;
             color: var(--text-primary);
             border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .theme-buttons button {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .theme-buttons button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .sidebar-actions button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sidebar-actions button:hover {
+            background-color: var(--surface-hover);
+            color: var(--text-primary);
         }
 
         #group-list {
@@ -227,14 +277,14 @@
             color: var(--text-primary);
         }
 
-        /* Switch item list from vertical list to a 3-column grid */
+        /* Switch item list from vertical list to a responsive grid */
         #item-list {
             list-style: none;
             padding: 0;
             margin: 0;
             counter-reset: item-counter;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1rem;
         }
 
@@ -248,9 +298,9 @@
             font-size: 1rem;
             position: relative;
             display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            min-height: 72px;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-height: 100px;
         }
 
         #item-list li:hover {
@@ -290,32 +340,47 @@
         }
 
         .item-copy-count {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
             color: var(--primary-color);
-            background-color: rgba(45, 136, 255, 0.1);
-            border: 1px solid rgba(45, 136, 255, 0.3);
+            background-color: rgba(45, 136, 255, 0.15);
+            border: 2px solid rgba(45, 136, 255, 0.4);
             border-radius: 1rem;
-            padding: 0.1rem 0.5rem;
-            margin-left: auto;
-            margin-right: 1rem;
-            min-width: 20px;
+            padding: 0.25rem 0.75rem;
+            position: absolute;
+            top: 0.75rem;
+            right: 4rem;
+            min-width: 30px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Item buttons container */
+        .item-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         /* Three-dot menu button on each item */
         .item-more {
             background: transparent;
-            border: none;
+            border: 1px solid var(--border-color);
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.25rem;
-            font-size: 1.1rem;
+            font-size: 0.8rem;
+            transition: background-color 0.2s, color 0.2s;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            z-index: 10;
         }
 
         .item-more:hover {
@@ -422,6 +487,30 @@
             transform: scale(1.1);
         }
 
+        .info-toggle {
+            display: flex;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1001;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 0.75rem;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.9rem;
+            transition: background-color 0.2s, transform 0.2s;
+            gap: 0.25rem;
+        }
+
+        .info-toggle:hover {
+            transform: scale(1.05);
+        }
+
         .prompt-actions {
             display: flex;
             gap: 0.5rem;
@@ -500,6 +589,291 @@
             overflow-y: auto;
         }
 
+        /* Item buttons container */
+        .item-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .item-buttons button {
+            background: transparent !important;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .item-buttons button:hover {
+            background-color: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        /* Variation dropdown */
+        .variation-dropdown {
+            position: fixed;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-md);
+            display: none;
+            z-index: 10000;
+            min-width: 120px;
+            max-width: 200px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .variation-dropdown.visible { display: block; }
+
+        .variation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .variation-item:hover {
+            background-color: var(--surface-hover);
+        }
+
+        .variation-text {
+            flex-grow: 1;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .variation-actions {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .variation-actions button {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .variation-actions button:hover {
+            background-color: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        /* Variation modal */
+        #variation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        #variation-modal.visible {
+            display: flex;
+        }
+
+        .variation-modal-content {
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .variation-modal-content h3 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .variation-form textarea {
+            width: 100%;
+            height: 120px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .variation-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .variation-form .buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .variation-form button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .variation-form .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .variation-form .cancel-btn {
+            background-color: var(--surface-color);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Add Item modal */
+        #add-item-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        #add-item-modal.visible {
+            display: flex;
+        }
+
+        .add-item-modal-content {
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .add-item-modal-content h3 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .add-item-form textarea {
+            width: 100%;
+            height: 120px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .add-item-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .add-item-form .buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .add-item-form button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .add-item-form .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .add-item-form .cancel-btn {
+            background-color: var(--surface-color);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Info modal */
+        #info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        #info-modal.visible {
+            display: flex;
+        }
+
+        .info-modal-content {
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .info-modal-content h3 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .info-content h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .info-content p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
     </style>
 </head>
 <body>
@@ -514,7 +888,13 @@
             </div>
         </div>
         <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">Groups</div>
+            <div class="sidebar-header">
+                <span>Groups</span>
+                <div class="sidebar-actions">
+                    <button id="import-all-data" title="Import All Data"><i class="bi bi-box-arrow-in-up"></i></button>
+                    <button id="export-all-data" title="Export All Data"><i class="bi bi-box-arrow-in-down"></i></button>
+                </div>
+            </div>
             <ul id="group-list"></ul>
         </div>
     </div>
@@ -531,9 +911,102 @@
         <i class="bi bi-list"></i>
     </button>
 
+    <button class="info-toggle" id="info-button">
+        <i class="bi bi-info-circle"></i> Info
+    </button>
+
     <div id="full-text-modal">
         <div id="full-text-content" class="full-text-content"></div>
     </div>
+
+    <div id="variation-modal">
+        <div class="variation-modal-content">
+            <h3 id="variation-modal-title">Tambah Variasi</h3>
+            <form class="variation-form">
+                <textarea id="variation-textarea" placeholder="Masukkan teks variasi..."></textarea>
+                <div class="buttons">
+                    <button type="button" class="cancel-btn" id="variation-cancel">Batal</button>
+                    <button type="submit" class="save-btn" id="variation-save">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-item-modal">
+        <div class="add-item-modal-content">
+            <h3>Tambah Item</h3>
+            <form class="add-item-form">
+                <textarea id="add-item-textarea" placeholder="Masukkan teks item..."></textarea>
+                <div class="buttons">
+                    <button type="button" class="cancel-btn" id="add-item-cancel">Batal</button>
+                    <button type="submit" class="save-btn" id="add-item-save">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="info-modal">
+        <div class="info-modal-content">
+            <h3>Info & Cara Penggunaan</h3>
+            <div class="info-content">
+                <h4>Membuat Grup Baru</h4>
+                <p>Masukkan teks item dipisahkan dengan simbol "~" di textarea utama, lalu klik "Save". Grup akan dibuat otomatis dengan nama berdasarkan kata-kata umum.</p>
+
+                <h4>Mengganti Grup</h4>
+                <p>Klik <i class="bi bi-list"></i> ikon menu di kiri atas, lalu pilih grup dari daftar.</p>
+
+                <h4>Menyalin Item</h4>
+                <p>Klik pada item untuk menyalin teksnya ke clipboard <i class="bi bi-clipboard"></i>. Jumlah salin akan tercatat.</p>
+
+                <h4>Melihat Teks Lengkap</h4>
+                <p>Tekan lama (long press) pada item untuk melihat teks lengkap dalam modal <i class="bi bi-eye"></i>.</p>
+
+                <h4>Menambah Variasi</h4>
+                <p>Klik tombol "Add Variasi" pada item untuk menambah variasi teks.</p>
+
+                <h4>Melihat Daftar Variasi</h4>
+                <p>Klik tombol "List Variasi" untuk melihat dropdown variasi. Klik pada variasi untuk menyalin, atau tekan lama untuk melihat lengkap.</p>
+
+                <h4>Mengedit Item/Variasi</h4>
+                <p>Klik tombol <i class="bi bi-three-dots-vertical"></i> pada item, lalu pilih "Edit". Untuk variasi, klik ikon <i class="bi bi-pencil"></i> di dropdown.</p>
+
+                <h4>Menghapus Item/Variasi</h4>
+                <p>Dari menu <i class="bi bi-three-dots-vertical"></i> atau dari dropdown variasi, pilih "Delete" <i class="bi bi-trash3"></i>.</p>
+
+                <h4>Mereset Jumlah Salin</h4>
+                <p>Klik ikon <i class="bi bi-arrow-counterclockwise"></i> reset di header grup untuk mengatur ulang counter salin.</p>
+
+                <h4>Mengganti Nama Grup</h4>
+                <p>Klik ikon <i class="bi bi-pencil-square"></i> pensil di header grup.</p>
+
+                <h4>Export Grup</h4>
+                <p>Klik ikon <i class="bi bi-box-arrow-down"></i> download di header grup untuk export sebagai file .txt.</p>
+
+                <h4>Menghapus Grup</h4>
+                <p>Klik ikon <i class="bi bi-trash3"></i> sampah di header grup.</p>
+
+                <h4>Edit Main Prompt</h4>
+                <p>Klik "Edit Main Prompt" untuk mengubah prompt utama yang digunakan untuk generate teks.</p>
+
+                <h4>Copy & Open Gemini</h4>
+                <p>Klik untuk menyalin prompt utama dan membuka Gemini di tab baru <i class="bi bi-box-arrow-up-right"></i>.</p>
+
+                <h4>Import/Export Semua Data</h4>
+                <p>Dari menu samping, klik ikon <i class="bi bi-box-arrow-in-up"></i> import untuk memuat data dari file .json, atau <i class="bi bi-box-arrow-in-down"></i> export untuk menyimpan semua data.</p>
+
+                <h4>Tampilan Responsif</h4>
+                <p>Aplikasi menyesuaikan tampilan untuk desktop, tablet, dan mobile.</p>
+
+                <h4>Penyimpanan Lokal</h4>
+                <p>Semua data disimpan di browser localStorage, tidak memerlukan server.</p>
+            </div>
+            <div class="buttons">
+                <button type="button" class="cancel-btn" id="info-close">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="import-file-input" accept=".json" style="display: none;">
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -554,6 +1027,9 @@
             let toastTimeout;
             let longPressTimer;
             let mainPromptText = '';
+            let currentItemIndex = null;
+            let currentVariationIndex = null;
+            let currentTheme = 'colorful';
 
             const defaultMainPrompt = `Buatkan 20 kalimat promosi natural dan relevan untuk produk berikut. Setiap kalimat harus: Memiliki hook yang menyentuh masalah atau kebutuhan nyata. Mengandung kata kunci utama (related key) dan bersifat long-tail agar relevan jangka panjang. Ditulis dengan gaya percakapan sehari-hari, alami dan tidak robotik. Berisi 3–5 tagar relevan. Hanya satu simbol “~” di akhir baris, setelah tagar terakhir. 👉 Jangan pernah menaruh “~” di tengah kalimat atau setelah judul. Tidak ada teks tambahan, penjelasan, atau urutan nomor. Format WAJIB: [Hook + Judul long-tail natural] #tagar1 #tagar2 #tagar3~ Topik:`;
 
@@ -570,7 +1046,10 @@
                     parsedGroups.forEach(group => {
                         group.items = group.items.map(item => {
                             if (typeof item === 'string') {
-                                return { text: item, copyCount: 0 };
+                                return { text: item, copyCount: 0, variations: [] };
+                            }
+                            if (!item.variations) {
+                                item.variations = [];
                             }
                             return item;
                         });
@@ -584,6 +1063,10 @@
 
                 // Load Main Prompt
                 mainPromptText = localStorage.getItem('easyCopyMainPrompt') || defaultMainPrompt;
+
+                // Load Theme
+                currentTheme = localStorage.getItem('easyCopyTheme') || 'colorful';
+                applyTheme();
 
                 renderGroupList();
                 renderItemList();
@@ -648,12 +1131,14 @@
                 
                 const actions = document.createElement('div');
                 actions.className = 'group-actions';
-                
+
+                const addItemBtn = createActionButton('Add Item', 'bi-plus-circle', handleAddItem);
                 const resetBtn = createActionButton('Reset Counts', 'bi-arrow-counterclockwise', handleResetCounts);
                 const renameBtn = createActionButton('Rename', 'bi-pencil-square', handleRename);
                 const exportBtn = createActionButton('Export', 'bi-box-arrow-down', handleExport);
                 const deleteBtn = createActionButton('Delete', 'bi-trash3', handleDelete);
-                
+
+                actions.appendChild(addItemBtn);
                 actions.appendChild(resetBtn);
                 actions.appendChild(renameBtn);
                 actions.appendChild(exportBtn);
@@ -677,25 +1162,76 @@
                         const li = document.createElement('li');
                         li.dataset.index = index;
 
-                        const baseHue = 210;
-                        const hueStep = 35;
-                        const currentHue = (baseHue + index * hueStep) % 360;
-                        li.style.backgroundColor = `hsl(${currentHue}, 20%, 25%)`;
-                        li.style.borderColor = `hsl(${currentHue}, 20%, 35%)`;
+                        if (currentTheme === 'colorful') {
+                            const baseHue = 210;
+                            const hueStep = 35;
+                            const currentHue = (baseHue + index * hueStep) % 360;
+                            li.style.backgroundColor = `hsl(${currentHue}, 20%, 25%)`;
+                            li.style.borderColor = `hsl(${currentHue}, 20%, 35%)`;
+                        } else if (currentTheme === 'light-colorful') {
+                            const baseHue = 210;
+                            const hueStep = 35;
+                            const currentHue = (baseHue + index * hueStep) % 360;
+                            li.style.backgroundColor = `hsl(${currentHue}, 30%, 85%)`;
+                            li.style.borderColor = `hsl(${currentHue}, 30%, 75%)`;
+                        } else {
+                            // dark-default: use gray
+                            li.style.backgroundColor = 'var(--surface-color)';
+                            li.style.borderColor = 'var(--border-color)';
+                        }
 
                         const itemTextSpan = document.createElement('span');
                         itemTextSpan.className = 'item-text';
                         itemTextSpan.textContent = item.text;
 
-                        const copyCountSpan = document.createElement('span');
-                        copyCountSpan.className = 'item-copy-count';
-                        copyCountSpan.textContent = item.copyCount > 0 ? item.copyCount : '';
+                        // Buttons container
+                        const buttonsContainer = document.createElement('div');
+                        buttonsContainer.className = 'item-buttons';
 
-                        // More button (three dots)
+                        // Variation buttons
+                        const addVariationBtn = document.createElement('button');
+                        addVariationBtn.textContent = 'Add Variasi';
+                        const listVariationBtn = document.createElement('button');
+                        listVariationBtn.textContent = 'List Variasi';
+
+                        buttonsContainer.appendChild(addVariationBtn);
+                        buttonsContainer.appendChild(listVariationBtn);
+
+                        // More button (three dots) - positioned at top right
                         const moreBtn = document.createElement('button');
                         moreBtn.className = 'item-more';
                         moreBtn.title = 'More';
                         moreBtn.innerHTML = '<i class="bi bi-three-dots-vertical"></i>';
+
+                        // Variation dropdown
+                        const variationDropdown = document.createElement('div');
+                        variationDropdown.className = 'variation-dropdown';
+
+                        addVariationBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            currentItemIndex = index;
+                            currentVariationIndex = null;
+                            document.getElementById('variation-modal-title').textContent = 'Tambah Variasi';
+                            document.getElementById('variation-textarea').value = '';
+                            document.getElementById('variation-modal').classList.add('visible');
+                        });
+
+                        listVariationBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            closeAllVariationDropdowns();
+                            // Sync dropdown colors with item rainbow theme
+                            variationDropdown.style.backgroundColor = li.style.backgroundColor;
+                            variationDropdown.style.borderColor = li.style.borderColor;
+                            renderVariationDropdown(variationDropdown, item.variations, index);
+                            const rect = listVariationBtn.getBoundingClientRect();
+                            variationDropdown.style.left = rect.left + 'px';
+                            variationDropdown.style.top = rect.bottom + 'px';
+                            variationDropdown.classList.toggle('visible');
+                        });
+
+                        const copyCountSpan = document.createElement('span');
+                        copyCountSpan.className = 'item-copy-count';
+                        copyCountSpan.textContent = item.copyCount > 0 ? item.copyCount : '';
 
                         // Menu for edit/delete
                         const menu = document.createElement('div');
@@ -711,6 +1247,8 @@
 
                         // Append elements to li
                         li.appendChild(itemTextSpan);
+                        li.appendChild(buttonsContainer);
+                        document.body.appendChild(variationDropdown);
                         li.appendChild(copyCountSpan);
                         li.appendChild(moreBtn);
                         li.appendChild(menu);
@@ -805,7 +1343,7 @@
                 const text = scriptInput.value.trim();
                 if (!text) return;
 
-                const itemObjects = text.split('~').map(s => s.trim()).filter(Boolean).map(s => ({ text: s, copyCount: 0 }));
+                const itemObjects = text.split('~').map(s => s.trim()).filter(Boolean).map(s => ({ text: s, copyCount: 0, variations: [] }));
                 if (itemObjects.length === 0) return;
                 
                 const newGroup = {
@@ -952,6 +1490,11 @@
                 URL.revokeObjectURL(url);
             }
 
+            function handleAddItem() {
+                document.getElementById('add-item-textarea').value = '';
+                document.getElementById('add-item-modal').classList.add('visible');
+            }
+
             // --- UI Helpers ---
             function showToast(message) {
                 clearTimeout(toastTimeout);
@@ -998,12 +1541,86 @@
                 document.querySelectorAll('.item-menu.visible').forEach(m => m.classList.remove('visible'));
             }
 
+            // Close any open variation dropdowns
+            function closeAllVariationDropdowns() {
+                document.querySelectorAll('.variation-dropdown.visible').forEach(d => d.classList.remove('visible'));
+            }
+
             // Close menus when clicking outside
             document.addEventListener('click', (e) => {
                 // If clicked inside a .item-menu or on .item-more, ignore
-                if (e.target.closest('.item-menu') || e.target.closest('.item-more')) return;
+                if (e.target.closest('.item-menu') || e.target.closest('.item-more') || e.target.closest('.variation-dropdown') || e.target.closest('.variation-buttons')) return;
                 closeAllItemMenus();
+                closeAllVariationDropdowns();
             });
+
+            function renderVariationDropdown(dropdown, variations, itemIndex) {
+                dropdown.innerHTML = '';
+                if (variations.length === 0) {
+                    const noVariations = document.createElement('div');
+                    noVariations.textContent = 'Tidak ada variasi';
+                    noVariations.style.padding = '0.5rem';
+                    noVariations.style.color = 'var(--text-secondary)';
+                    dropdown.appendChild(noVariations);
+                    return;
+                }
+                variations.forEach((variation, variationIndex) => {
+                    const variationItem = document.createElement('div');
+                    variationItem.className = 'variation-item';
+
+                    const variationText = document.createElement('span');
+                    variationText.className = 'variation-text';
+                    variationText.textContent = `${variationIndex + 1}. ${variation.text}`;
+                    variationText.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyToClipboard(variation.text, 'Variasi disalin ke clipboard');
+                        variation.copyCount++;
+                        saveGroups();
+                    });
+
+                    const variationActions = document.createElement('div');
+                    variationActions.className = 'variation-actions';
+
+                    const editBtn = document.createElement('button');
+                    editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+                    editBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentItemIndex = itemIndex;
+                        currentVariationIndex = variationIndex;
+                        document.getElementById('variation-modal-title').textContent = 'Edit Variasi';
+                        document.getElementById('variation-textarea').value = variation.text;
+                        document.getElementById('variation-modal').classList.add('visible');
+                    });
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.innerHTML = '<i class="bi bi-trash3"></i>';
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (confirm('Hapus variasi ini?')) {
+                            const group = groups.find(g => g.id === activeGroupId);
+                            if (group && group.items[itemIndex]) {
+                                group.items[itemIndex].variations.splice(variationIndex, 1);
+                                saveGroups();
+                                renderItemList();
+                                showToast('Variasi dihapus');
+                            }
+                        }
+                    });
+
+                    variationActions.appendChild(editBtn);
+                    variationActions.appendChild(deleteBtn);
+
+                    variationItem.appendChild(variationText);
+                    variationItem.appendChild(variationActions);
+
+                    addLongPressListener(variationItem, () => {
+                        showFullText(variation.text);
+                        closeAllVariationDropdowns();
+                    });
+
+                    dropdown.appendChild(variationItem);
+                });
+            }
 
             function showFullText(text) {
                 fullTextContent.textContent = text;
@@ -1018,11 +1635,222 @@
                 e.stopPropagation();
                 document.body.classList.toggle('menu-open');
             });
-            
+
             overlay.addEventListener('click', closeMenu);
+
+            // Variation modal handlers
+            document.getElementById('variation-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'variation-modal') {
+                    document.getElementById('variation-modal').classList.remove('visible');
+                }
+            });
+
+            document.getElementById('variation-cancel').addEventListener('click', () => {
+                document.getElementById('variation-modal').classList.remove('visible');
+            });
+
+            document.querySelector('.variation-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = document.getElementById('variation-textarea').value.trim();
+                if (!text) {
+                    showToast('Teks variasi tidak boleh kosong');
+                    return;
+                }
+
+                const group = groups.find(g => g.id === activeGroupId);
+                if (!group || currentItemIndex === null) return;
+
+                const item = group.items[currentItemIndex];
+                if (!item) return;
+
+                if (currentVariationIndex === null) {
+                    // Add new variation
+                    item.variations.push({ text, copyCount: 0 });
+                    showToast('Variasi ditambahkan');
+                } else {
+                    // Edit existing variation
+                    item.variations[currentVariationIndex].text = text;
+                    showToast('Variasi diperbarui');
+                }
+
+                saveGroups();
+                renderItemList();
+                document.getElementById('variation-modal').classList.remove('visible');
+            });
+
+            // Add Item modal handlers
+            document.getElementById('add-item-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'add-item-modal') {
+                    document.getElementById('add-item-modal').classList.remove('visible');
+                }
+            });
+
+            document.getElementById('add-item-cancel').addEventListener('click', () => {
+                document.getElementById('add-item-modal').classList.remove('visible');
+            });
+
+            document.querySelector('.add-item-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = document.getElementById('add-item-textarea').value.trim();
+                if (!text) {
+                    showToast('Teks item tidak boleh kosong');
+                    return;
+                }
+
+                const group = groups.find(g => g.id === activeGroupId);
+                if (!group) return;
+
+                group.items.push({ text, copyCount: 0, variations: [] });
+                saveGroups();
+                renderItemList();
+                renderGroupList();
+                showToast('Item ditambahkan');
+                document.getElementById('add-item-modal').classList.remove('visible');
+            });
+
+            // --- Import/Export All Data ---
+            function handleExportAllData() {
+                const data = {
+                    groups: groups,
+                    mainPrompt: mainPromptText,
+                    activeGroupId: activeGroupId
+                };
+                const json = JSON.stringify(data, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'easy-copy-data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('All data exported!');
+            }
+
+            function handleImportAllData() {
+                document.getElementById('import-file-input').click();
+            }
+
+            function handleFileImport(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.groups && Array.isArray(data.groups)) {
+                            groups = data.groups.map(group => {
+                                group.items = group.items.map(item => {
+                                    if (typeof item === 'string') {
+                                        return { text: item, copyCount: 0, variations: [] };
+                                    }
+                                    if (!item.variations) item.variations = [];
+                                    return item;
+                                });
+                                return group;
+                            });
+                            if (data.mainPrompt) {
+                                mainPromptText = data.mainPrompt;
+                                localStorage.setItem('easyCopyMainPrompt', mainPromptText);
+                            }
+                            if (data.activeGroupId && groups.find(g => g.id === data.activeGroupId)) {
+                                activeGroupId = data.activeGroupId;
+                            } else if (groups.length > 0) {
+                                activeGroupId = groups[0].id;
+                            }
+                            saveGroups();
+                            localStorage.setItem('easyCopyActiveGroup', activeGroupId);
+                            renderGroupList();
+                            renderItemList();
+                            showToast('All data imported!');
+                        } else {
+                            showToast('Invalid file format');
+                        }
+                    } catch (err) {
+                        showToast('Error importing data');
+                    }
+                };
+                reader.readAsText(file);
+                event.target.value = ''; // reset
+            }
+
+            document.getElementById('export-all-data').addEventListener('click', handleExportAllData);
+            document.getElementById('import-all-data').addEventListener('click', handleImportAllData);
+            document.getElementById('import-file-input').addEventListener('change', handleFileImport);
+
+            // Info modal handlers
+            document.getElementById('info-button').addEventListener('click', () => {
+                document.getElementById('info-modal').classList.add('visible');
+            });
+
+            document.getElementById('info-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'info-modal') {
+                    document.getElementById('info-modal').classList.remove('visible');
+                }
+            });
+
+            document.getElementById('info-close').addEventListener('click', () => {
+                document.getElementById('info-modal').classList.remove('visible');
+            });
+
+            // Theme functions
+            function applyTheme() {
+                const root = document.documentElement;
+                if (currentTheme === 'light-colorful') {
+                    root.style.setProperty('--background-color', '#f8f9fa');
+                    root.style.setProperty('--surface-color', '#ffffff');
+                    root.style.setProperty('--surface-hover', '#e9ecef');
+                    root.style.setProperty('--border-color', '#dee2e6');
+                    root.style.setProperty('--text-primary', '#212529');
+                    root.style.setProperty('--text-secondary', '#6c757d');
+                } else if (currentTheme === 'dark-default') {
+                    root.style.setProperty('--background-color', '#121212');
+                    root.style.setProperty('--surface-color', '#1e1e1e');
+                    root.style.setProperty('--surface-hover', '#2d2d2d');
+                    root.style.setProperty('--border-color', '#333333');
+                    root.style.setProperty('--text-primary', '#ffffff');
+                    root.style.setProperty('--text-secondary', '#cccccc');
+                } else { // colorful
+                    root.style.setProperty('--background-color', '#18191a');
+                    root.style.setProperty('--surface-color', '#242526');
+                    root.style.setProperty('--surface-hover', '#3a3b3c');
+                    root.style.setProperty('--border-color', '#3a3b3c');
+                    root.style.setProperty('--text-primary', '#e4e6eb');
+                    root.style.setProperty('--text-secondary', '#b0b3b8');
+                }
+                localStorage.setItem('easyCopyTheme', currentTheme);
+                renderItemList(); // Re-render to apply colors
+            }
+
+            // Theme button handlers
+            document.getElementById('theme-dark-default').addEventListener('click', () => {
+                currentTheme = 'dark-default';
+                applyTheme();
+                updateThemeButtons();
+            });
+
+            document.getElementById('theme-colorful').addEventListener('click', () => {
+                currentTheme = 'colorful';
+                applyTheme();
+                updateThemeButtons();
+            });
+
+            document.getElementById('theme-light-colorful').addEventListener('click', () => {
+                currentTheme = 'light-colorful';
+                applyTheme();
+                updateThemeButtons();
+            });
+
+            function updateThemeButtons() {
+                document.querySelectorAll('.theme-buttons button').forEach(btn => btn.classList.remove('active'));
+                document.getElementById(`theme-${currentTheme}`).classList.add('active');
+            }
 
             // --- Initial Load ---
             loadData();
+            updateThemeButtons();
         });
     </script>
 </body>
