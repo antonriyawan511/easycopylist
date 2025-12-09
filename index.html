@@ -1825,19 +1825,19 @@
             }
 
             // Theme button handlers
-            document.getElementById('theme-dark-default').addEventListener('click', () => {
+            if (document.getElementById('theme-dark-default')) document.getElementById('theme-dark-default').addEventListener('click', () => {
                 currentTheme = 'dark-default';
                 applyTheme();
                 updateThemeButtons();
             });
 
-            document.getElementById('theme-colorful').addEventListener('click', () => {
+            if (document.getElementById('theme-colorful')) document.getElementById('theme-colorful').addEventListener('click', () => {
                 currentTheme = 'colorful';
                 applyTheme();
                 updateThemeButtons();
             });
 
-            document.getElementById('theme-light-colorful').addEventListener('click', () => {
+            if (document.getElementById('theme-light-colorful')) document.getElementById('theme-light-colorful').addEventListener('click', () => {
                 currentTheme = 'light-colorful';
                 applyTheme();
                 updateThemeButtons();
