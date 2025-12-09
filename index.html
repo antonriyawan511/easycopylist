@@ -93,25 +93,7 @@
             align-items: center;
         }
 
-        .theme-buttons {
-            display: flex;
-            gap: 0.25rem;
-        }
 
-        .theme-buttons button {
-            padding: 0.25rem 0.5rem;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-
-        .theme-buttons button.active {
-            background: var(--primary-color);
-            color: white;
-        }
 
         .sidebar-actions {
             display: flex;
@@ -1029,7 +1011,6 @@
             let mainPromptText = '';
             let currentItemIndex = null;
             let currentVariationIndex = null;
-            let currentTheme = 'colorful';
 
             const defaultMainPrompt = `Buatkan 20 kalimat promosi natural dan relevan untuk produk berikut. Setiap kalimat harus: Memiliki hook yang menyentuh masalah atau kebutuhan nyata. Mengandung kata kunci utama (related key) dan bersifat long-tail agar relevan jangka panjang. Ditulis dengan gaya percakapan sehari-hari, alami dan tidak robotik. Berisi 3–5 tagar relevan. Hanya satu simbol “~” di akhir baris, setelah tagar terakhir. 👉 Jangan pernah menaruh “~” di tengah kalimat atau setelah judul. Tidak ada teks tambahan, penjelasan, atau urutan nomor. Format WAJIB: [Hook + Judul long-tail natural] #tagar1 #tagar2 #tagar3~ Topik:`;
 
@@ -1063,10 +1044,6 @@
 
                 // Load Main Prompt
                 mainPromptText = localStorage.getItem('easyCopyMainPrompt') || defaultMainPrompt;
-
-                // Load Theme
-                currentTheme = localStorage.getItem('easyCopyTheme') || 'colorful';
-                applyTheme();
 
                 renderGroupList();
                 renderItemList();
@@ -1162,23 +1139,11 @@
                         const li = document.createElement('li');
                         li.dataset.index = index;
 
-                        if (currentTheme === 'colorful') {
-                            const baseHue = 210;
-                            const hueStep = 35;
-                            const currentHue = (baseHue + index * hueStep) % 360;
-                            li.style.backgroundColor = `hsl(${currentHue}, 20%, 25%)`;
-                            li.style.borderColor = `hsl(${currentHue}, 20%, 35%)`;
-                        } else if (currentTheme === 'light-colorful') {
-                            const baseHue = 210;
-                            const hueStep = 35;
-                            const currentHue = (baseHue + index * hueStep) % 360;
-                            li.style.backgroundColor = `hsl(${currentHue}, 30%, 85%)`;
-                            li.style.borderColor = `hsl(${currentHue}, 30%, 75%)`;
-                        } else {
-                            // dark-default: use gray
-                            li.style.backgroundColor = 'var(--surface-color)';
-                            li.style.borderColor = 'var(--border-color)';
-                        }
+                        const baseHue = 210;
+                        const hueStep = 35;
+                        const currentHue = (baseHue + index * hueStep) % 360;
+                        li.style.backgroundColor = `hsl(${currentHue}, 20%, 25%)`;
+                        li.style.borderColor = `hsl(${currentHue}, 20%, 35%)`;
 
                         const itemTextSpan = document.createElement('span');
                         itemTextSpan.className = 'item-text';
@@ -1795,62 +1760,8 @@
                 document.getElementById('info-modal').classList.remove('visible');
             });
 
-            // Theme functions
-            function applyTheme() {
-                const root = document.documentElement;
-                if (currentTheme === 'light-colorful') {
-                    root.style.setProperty('--background-color', '#f8f9fa');
-                    root.style.setProperty('--surface-color', '#ffffff');
-                    root.style.setProperty('--surface-hover', '#e9ecef');
-                    root.style.setProperty('--border-color', '#dee2e6');
-                    root.style.setProperty('--text-primary', '#212529');
-                    root.style.setProperty('--text-secondary', '#6c757d');
-                } else if (currentTheme === 'dark-default') {
-                    root.style.setProperty('--background-color', '#121212');
-                    root.style.setProperty('--surface-color', '#1e1e1e');
-                    root.style.setProperty('--surface-hover', '#2d2d2d');
-                    root.style.setProperty('--border-color', '#333333');
-                    root.style.setProperty('--text-primary', '#ffffff');
-                    root.style.setProperty('--text-secondary', '#cccccc');
-                } else { // colorful
-                    root.style.setProperty('--background-color', '#18191a');
-                    root.style.setProperty('--surface-color', '#242526');
-                    root.style.setProperty('--surface-hover', '#3a3b3c');
-                    root.style.setProperty('--border-color', '#3a3b3c');
-                    root.style.setProperty('--text-primary', '#e4e6eb');
-                    root.style.setProperty('--text-secondary', '#b0b3b8');
-                }
-                localStorage.setItem('easyCopyTheme', currentTheme);
-                renderItemList(); // Re-render to apply colors
-            }
-
-            // Theme button handlers
-            if (document.getElementById('theme-dark-default')) document.getElementById('theme-dark-default').addEventListener('click', () => {
-                currentTheme = 'dark-default';
-                applyTheme();
-                updateThemeButtons();
-            });
-
-            if (document.getElementById('theme-colorful')) document.getElementById('theme-colorful').addEventListener('click', () => {
-                currentTheme = 'colorful';
-                applyTheme();
-                updateThemeButtons();
-            });
-
-            if (document.getElementById('theme-light-colorful')) document.getElementById('theme-light-colorful').addEventListener('click', () => {
-                currentTheme = 'light-colorful';
-                applyTheme();
-                updateThemeButtons();
-            });
-
-            function updateThemeButtons() {
-                document.querySelectorAll('.theme-buttons button').forEach(btn => btn.classList.remove('active'));
-                document.getElementById(`theme-${currentTheme}`).classList.add('active');
-            }
-
             // --- Initial Load ---
             loadData();
-            updateThemeButtons();
         });
     </script>
 </body>
